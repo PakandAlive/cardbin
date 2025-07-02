@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡BIN查询</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>卡BIN查询</h1>
+        </div>
+        
+        <div class="main-content">
+            <div class="info-section api-desc-grid">
+                <div class="api-desc-col">
+                    <h3>BIN 查询信息</h3>
+                    <ul>
+                        <li>卡BIN号</li>
+                        <li>卡品牌</li>
+                        <li>卡类型</li>
+                        <li>卡等级</li>
+                        <li>发卡行/银行名称</li>
+                        <li>国家名称</li>
+                        <li>国家代码</li>
+                        <li>币种</li>
+                        <li>是否商务卡</li>
+                        <li>是否预付卡</li>
+                    </ul>
+                </div>
+                <div class="api-desc-col">
+                    <h3>IP 查询信息</h3>
+                    <ul>
+                        <li>用户IP地址</li>
+                        <li>IP版本</li>
+                        <li>国家</li>
+                        <li>地区</li>
+                        <li>城市</li>
+                        <li>运营商</li>
+                        <li>ASN号</li>
+                        <li>是否代理IP</li>
+                        <li>时区</li>
+                        <li>IP与BIN国家是否匹配</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="check-section">
+                <div class="card-icon">
+                    <svg width="60" height="45" viewBox="0 0 60 45" fill="none">
+                        <rect x="5" y="5" width="50" height="35" rx="5" stroke="#666" stroke-width="2" fill="#2a2a2a"/>
+                        <rect x="5" y="15" width="50" height="8" fill="#666"/>
+                    </svg>
+                </div>
+                <h2>检查、验证和确认 BIN</h2>
+                <div class="input-group">
+                    <input type="text" id="binInput" placeholder="输入卡片的前6位数字" maxlength="6">
+                    <button id="checkBtn" class="home-check-btn">Check</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bin-selection">
+            <h3>Select BIN</h3>
+            <div class="bin-buttons">
+                <button class="bin-btn" data-bin="428820">428820</button>
+                <button class="bin-btn" data-bin="428852">428852</button>
+                <button class="bin-btn" data-bin="512631">512631</button>
+                <button class="bin-btn" data-bin="542723">542723</button>
+                <button class="bin-btn" data-bin="543691">543691</button>
+                <button class="bin-btn" data-bin="543196">543196</button>
+                <button class="bin-btn" data-bin="543502">543502</button>
+                <button class="bin-btn" data-bin="543306">543306</button>
+                <button class="bin-btn" data-bin="543734">543734</button>
+                <button class="bin-btn" data-bin="42460505">42460505</button>
+                <button class="bin-btn" data-bin="542093">542093</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loading" class="loading hidden">
+        <div class="loader"></div>
+        <p>查询中...</p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

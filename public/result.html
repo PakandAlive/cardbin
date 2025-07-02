@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIN 查询结果</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="result-header">
+            <h1 id="binTitle">BIN information</h1>
+        </div>
+        
+        <div class="result-content">
+            <!-- 左侧：IP 信息 -->
+            <div class="ip-details">
+                <h3>IP 信息</h3>
+                <div class="detail-item">
+                    <span class="label">IP地址</span>
+                    <span class="value" id="ipAddress">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">IP版本</span>
+                    <span class="value" id="ipVersion">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">国家</span>
+                    <span class="value" id="ipCountry">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">地区</span>
+                    <span class="value" id="ipRegion">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">城市</span>
+                    <span class="value" id="ipCity">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">运营商</span>
+                    <span class="value" id="ipIsp">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">ASN</span>
+                    <span class="value" id="ipAsn">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">代理IP</span>
+                    <span class="value" id="isProxy">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">时区</span>
+                    <span class="value" id="ipTimeZone">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">IP与BIN国家匹配</span>
+                    <span class="value" id="ipBinMatch">-</span>
+                </div>
+            </div>
+            
+            <!-- 右侧：BIN 信息 -->
+            <div class="result-details">
+                <h3>BIN 信息</h3>
+                <div class="detail-item">
+                    <span class="label">BIN/IIN</span>
+                    <span class="value" id="binNumber">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">卡品牌</span>
+                    <span class="value" id="cardType">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">卡类型</span>
+                    <span class="value" id="cardTypeDetail">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">卡等级</span>
+                    <span class="value" id="cardLevel">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">发卡行/银行名称</span>
+                    <span class="value" id="bankName">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">国家名称</span>
+                    <span class="value" id="countryName">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">国家代码</span>
+                    <span class="value" id="countryCode">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">币种</span>
+                    <span class="value" id="currency">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">商务卡</span>
+                    <span class="value" id="isCommercial">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">预付卡</span>
+                    <span class="value" id="isPrepaid">-</span>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="checkNewBtn" class="result-check-btn">Check New Bin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="error" class="error-message hidden">
+        <div class="error-content">
+            <h3>查询失败</h3>
+            <p id="errorText">请稍后重试</p>
+            <button onclick="goHome()">返回首页</button>
+        </div>
+    </div>
+    
+    <script>
+        // 从 URL 参数获取数据
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = urlParams.get('data');
+        
+        if (data) {
+            try {
+                const result = JSON.parse(decodeURIComponent(data));
+                displayResult(result);
+            } catch (error) {
+                showError('数据解析失败');
+            }
+        } else {
+            showError('没有查询数据');
+        }
+        
+        function displayResult(data) {
+            console.log('显示数据:', data);
+            
+            // 首先确保隐藏错误弹窗
+            document.getElementById('error').classList.add('hidden');
+            
+            // 显示BIN信息
+            document.getElementById('binTitle').textContent = `BIN ${data.BIN || ''} information`;
+            document.getElementById('binNumber').textContent = data.BIN || '-';
+            document.getElementById('cardType').textContent = data.CardType ? formatCase(data.CardType) : '-';
+            document.getElementById('cardTypeDetail').textContent = data.CardTypeDetail ? formatCase(data.CardTypeDetail) : '-';
+            document.getElementById('cardLevel').textContent = data.CardLevel ? formatCase(data.CardLevel) : '-';
+            document.getElementById('bankName').textContent = data.BankName ? formatCase(data.BankName) : '-';
+            document.getElementById('countryName').textContent = data.CountryName ? formatCase(data.CountryName) : '-';
+            document.getElementById('countryCode').textContent = data.CountryCode || '-';
+            document.getElementById('currency').textContent = data.Currency || '-';
+            
+            // 格式化布尔值显示
+            document.getElementById('isCommercial').textContent = 
+                data.IsCommercial === 'true' ? '是' : (data.IsCommercial === 'false' ? '否' : '-');
+            document.getElementById('isPrepaid').textContent = 
+                data.IsPrepaid === 'true' ? '是' : (data.IsPrepaid === 'false' ? '否' : '-');
+            
+            // 显示IP信息
+            if (data._original && data._original.IP) {
+                const ipData = data._original.IP;
+                document.getElementById('ipAddress').textContent = ipData.IP || '-';
+                document.getElementById('ipVersion').textContent = ipData.ip_version ? `IPv${ipData.ip_version}` : '-';
+                document.getElementById('ipCountry').textContent = ipData.country || '-';
+                document.getElementById('ipRegion').textContent = ipData.region || '-';
+                document.getElementById('ipCity').textContent = ipData.city || '-';
+                document.getElementById('ipIsp').textContent = ipData.isp ? ipData.isp.replace(/\r/g, '') : '-';
+                document.getElementById('ipAsn').textContent = ipData.asn || '-';
+                document.getElementById('isProxy').textContent = 
+                    ipData.is_proxy === true ? '是' : (ipData.is_proxy === false ? '否' : '-');
+                document.getElementById('ipTimeZone').textContent = 
+                    ipData.time_zone ? ipData.time_zone.replace(/\r/g, '') : '-';
+                
+                // IP-BIN匹配信息
+                if (ipData.IP_BIN_match !== undefined) {
+                    const matchText = ipData.IP_BIN_match ? '是' : '否';
+                    const matchMessage = ipData.IP_BIN_match_message || '';
+                    document.getElementById('ipBinMatch').textContent = matchText;
+                    document.getElementById('ipBinMatch').title = matchMessage;
+                } else {
+                    document.getElementById('ipBinMatch').textContent = '-';
+                }
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('error').classList.remove('hidden');
+        }
+        
+        function goHome() {
+            window.location.href = '/';
+        }
+        
+        document.getElementById('checkNewBtn').addEventListener('click', goHome);
+        
+        // 新增：英文内容首字母大写，其余小写
+        function formatCase(str) {
+            if (!str) return '';
+            // 如果全为大写，转为首字母大写
+            if (/^[A-Z\s,.]+$/.test(str)) {
+                return str.toLowerCase().replace(/(^|\s|,|\.)\S/g, s => s.toUpperCase());
+            }
+            return str;
+        }
+    </script>
+</body>
+</html> 
