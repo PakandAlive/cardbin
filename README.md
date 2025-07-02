@@ -45,7 +45,7 @@ npm run dev
 ```
 
 ### 5. 访问网站
-浏览器打开: http://localhost:3000
+浏览器打开: http://localhost:20209
 
 ## 目录结构
 ```
