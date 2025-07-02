@@ -72,3 +72,22 @@ bincheck/
 ## 许可证
 
 ISC 
+
+## 环境变量配置说明
+
+1. 安装 dotenv 依赖（只需一次）：
+   ```bash
+   npm install dotenv
+   ```
+2. 在 `server.js` 顶部添加：
+   ```js
+   require('dotenv').config();
+   ```
+3. 确保 `.env` 文件在项目根目录，内容如下：
+   ```env
+   RAPIDAPI_KEY=你的RapidAPI密钥
+   ```
+
+### 常见问题排查
+- 如果 API Key 无法读取，请确认 `.env` 文件路径、内容和 `require('dotenv').config();` 是否正确。
+- 修改 `.env` 后需重启服务。 
